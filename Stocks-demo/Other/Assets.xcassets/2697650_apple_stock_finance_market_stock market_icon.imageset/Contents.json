@@ -2,9 +2,7 @@
   "images" : [
     {
       "filename" : "2697650_apple_stock_finance_market_stock market_icon.png",
-      "idiom" : "universal",
-      "platform" : "ios",
-      "size" : "1024x1024"
+      "idiom" : "universal"
     }
   ],
   "info" : {
