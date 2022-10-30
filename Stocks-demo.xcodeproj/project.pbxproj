@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		69368930290EEC290054C995 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6936892F290EEC290054C995 /* Extensions.swift */; };
+		69368932290EF3D50054C995 /* SearchControllerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69368931290EF3D50054C995 /* SearchControllerTableViewCell.swift */; };
 		69CB7AB6290C37FC00FBAD76 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CB7AB5290C37FC00FBAD76 /* APIManager.swift */; };
 		69CB7AB8290C383C00FBAD76 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CB7AB7290C383C00FBAD76 /* PersistenceManager.swift */; };
 		69CB7ABA290C385D00FBAD76 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CB7AB9290C385D00FBAD76 /* HapticsManager.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		6936892F290EEC290054C995 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		69368931290EF3D50054C995 /* SearchControllerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchControllerTableViewCell.swift; sourceTree = "<group>"; };
 		69CB7AB5290C37FC00FBAD76 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		69CB7AB7290C383C00FBAD76 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		69CB7AB9290C385D00FBAD76 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				69FD4DE4290AC71F001CEB15 /* LaunchScreen.storyboard */,
+				69368931290EF3D50054C995 /* SearchControllerTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 				69FD4DDC290AC71F001CEB15 /* SceneDelegate.swift in Sources */,
 				69FD4DF5290ACA05001CEB15 /* SearchResultsViewController.swift in Sources */,
 				69CB7AB6290C37FC00FBAD76 /* APIManager.swift in Sources */,
+				69368932290EF3D50054C995 /* SearchControllerTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
