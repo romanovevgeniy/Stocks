@@ -23,9 +23,15 @@ final class APIManager {
         query: String,
         completion: @escaping (Result<SearchResponse, Error>) -> Void
     ) {
+        guard let safeQuery = query.addingPercentEncoding(
+            withAllowedCharacters: .urlQueryAllowed
+        ) else {
+            return
+        }
+        
         request(url: url(
             for: .search,
-            queryParams: ["q" : query]),
+            queryParams: ["q" : safeQuery]),
                 expecting: SearchResponse.self,
                 completion: completion)
     }
