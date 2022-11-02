@@ -8,14 +8,14 @@
 import UIKit
 
 protocol SearchResultsViewControllerDelegate: AnyObject {
-    func searchResultsViewControllerDidSelect(searchResult: String)
+    func searchResultsViewControllerDidSelect(searchResult: SearchResult)
 }
 
 class SearchResultsViewController: UIViewController {
     
     weak var delegate: SearchResultsViewControllerDelegate?
     
-    private var results: [String] = []
+    private var results: [SearchResult] = []
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -41,7 +41,7 @@ class SearchResultsViewController: UIViewController {
         tableView.dataSource = self
     }
     
-    public func update(with results: [String]) {
+    public func update(with results: [SearchResult]) {
         self.results = results
         tableView.reloadData()
     }
@@ -50,7 +50,7 @@ class SearchResultsViewController: UIViewController {
 extension SearchResultsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return results.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -58,16 +58,17 @@ extension SearchResultsViewController: UITableViewDelegate, UITableViewDataSourc
             withIdentifier: SearchControllerTableViewCell.identifier,
             for: indexPath
         )
-        
-        cell.textLabel?.text = "AAPL"
-        cell.detailTextLabel?.text = "Apple Inc."
+        let model = results[indexPath.row]
+        cell.textLabel?.text = model.displaySymbol
+        cell.detailTextLabel?.text = model.description
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        delegate?.searchResultsViewControllerDidSelect(searchResult: "AAPL")
+        let model = results[indexPath.row]
+        delegate?.searchResultsViewControllerDidSelect(searchResult: model)
     }
     
 }

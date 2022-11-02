@@ -9,6 +9,8 @@ import UIKit
 
 class WatchListViewController: UIViewController {
     
+    private var searchTimer: Timer?
+    
     //MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -63,19 +65,33 @@ extension WatchListViewController: UISearchResultsUpdating {
             return
         }
         
+        // сброс таймера
+        searchTimer?.invalidate()
         // оптимизация по количеству запросов
-        
+        // создание нового таймера
+        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { _ in
         // вызов API для поиска
-        
+            
+            APIManager.shared.search(query: query) { result in
+                switch result {
+                    case .success(let response):
         // обновление контроллера результатов
-        resultVC.update(with: ["GOOG"])
+                        DispatchQueue.main.async {
+                            resultVC.update(with: response.result)
+                        }
+                    case .failure(let error):
+                        print(error)
+                }
+            }
+        })
+        
     }
 }
 
 extension WatchListViewController: SearchResultsViewControllerDelegate {
-    func searchResultsViewControllerDidSelect(searchResult: String) {
+    func searchResultsViewControllerDidSelect(searchResult: SearchResult) {
         // Представление о результатах данного выбора
-        
+        print("Было выбрано: \(searchResult.displaySymbol)")
     }
     
     

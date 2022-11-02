@@ -12,7 +12,6 @@ final class APIManager {
     
     private struct Constants {
         static let apiKey = "cdgf0miad3ibuj2aim90cdgf0miad3ibuj2aim9g"
-        static let sandboxApiKey = ""
         static let baseUrl = "https://finnhub.io/api/v1/"
     }
     
@@ -22,9 +21,13 @@ final class APIManager {
    
     public func search(
         query: String,
-        completion: @escaping (Result<[String], Error>) -> Void
+        completion: @escaping (Result<SearchResponse, Error>) -> Void
     ) {
-        guard let url = url(for: .search, queryParams: ["q":query]) else { return <#return value#> }
+        request(url: url(
+            for: .search,
+            queryParams: ["q" : query]),
+                expecting: SearchResponse.self,
+                completion: completion)
     }
     
     // MARK: - Private
@@ -55,7 +58,9 @@ final class APIManager {
         queryItems.append(.init(name: "token", value: Constants.apiKey))
         
         // Конвертирование строки в суффикс строки
-        urlString += "?" + queryItems.map { "\($0.name) = \($0.value ?? "")" }.joined(separator: "&")
+        urlString += "?" + queryItems.map { "\($0.name)=\($0.value ?? "")" }.joined(separator: "&")
+        
+        print("\n\(urlString)\n")
         
         return URL(string: urlString)
     }
