@@ -11,18 +11,21 @@ final class APIManager {
     static let shared = APIManager()
     
     private struct Constants {
-        static let apiKey = ""
+        static let apiKey = "cdgf0miad3ibuj2aim90cdgf0miad3ibuj2aim9g"
         static let sandboxApiKey = ""
-        static let baseUrl = ""
+        static let baseUrl = "https://finnhub.io/api/v1/"
     }
     
     private init() {}
     
     // MARK: - Public
-    
-    // get stock info
-    
-    // search stocks
+   
+    public func search(
+        query: String,
+        completion: @escaping (Result<[String], Error>) -> Void
+    ) {
+        guard let url = url(for: .search, queryParams: ["q":query]) else { return <#return value#> }
+    }
     
     // MARK: - Private
     private enum Endpoint: String {
@@ -38,7 +41,23 @@ final class APIManager {
         for endpoint: Endpoint,
         queryParams: [String: String] = [:]
     ) -> URL? {
-        return nil
+        var urlString = Constants.baseUrl + endpoint.rawValue
+        
+        var queryItems = [URLQueryItem]()
+        
+        // Добавление параметров в URL
+        
+        for (name, value) in queryParams {
+            queryItems.append(.init(name: name, value: value))
+        }
+        
+        // Добавление токена
+        queryItems.append(.init(name: "token", value: Constants.apiKey))
+        
+        // Конвертирование строки в суффикс строки
+        urlString += "?" + queryItems.map { "\($0.name) = \($0.value ?? "")" }.joined(separator: "&")
+        
+        return URL(string: urlString)
     }
     
     private func request<T: Codable>(
