@@ -18,7 +18,7 @@
 		69FD4DDE290AC71F001CEB15 /* WatchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FD4DDD290AC71F001CEB15 /* WatchListViewController.swift */; };
 		69FD4DE3290AC71F001CEB15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69FD4DE2290AC71F001CEB15 /* Assets.xcassets */; };
 		69FD4DE6290AC71F001CEB15 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69FD4DE4290AC71F001CEB15 /* LaunchScreen.storyboard */; };
-		69FD4DF3290AC9DF001CEB15 /* TopStoriesNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FD4DF2290AC9DF001CEB15 /* TopStoriesNewsViewController.swift */; };
+		69FD4DF3290AC9DF001CEB15 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FD4DF2290AC9DF001CEB15 /* NewsViewController.swift */; };
 		69FD4DF5290ACA05001CEB15 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FD4DF4290ACA05001CEB15 /* SearchResultsViewController.swift */; };
 		69FD4DF7290ACA20001CEB15 /* StocksDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69FD4DF6290ACA20001CEB15 /* StocksDetailViewController.swift */; };
 		BC4D4C11CB60DB51F4FA3554 /* Pods_Stocks_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4B1D73EF1D8D807EA378BA /* Pods_Stocks_demo.framework */; };
@@ -40,7 +40,7 @@
 		69FD4DE2290AC71F001CEB15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		69FD4DE5290AC71F001CEB15 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		69FD4DE7290AC71F001CEB15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		69FD4DF2290AC9DF001CEB15 /* TopStoriesNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopStoriesNewsViewController.swift; sourceTree = "<group>"; };
+		69FD4DF2290AC9DF001CEB15 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		69FD4DF4290ACA05001CEB15 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		69FD4DF6290ACA20001CEB15 /* StocksDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksDetailViewController.swift; sourceTree = "<group>"; };
 		8F4B1D73EF1D8D807EA378BA /* Pods_Stocks_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Stocks_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,7 +72,6 @@
 				632CA3D10EDDA91C227BC779 /* Pods-Stocks-demo.debug.xcconfig */,
 				37F8B6BD91EF511E439BAE7C /* Pods-Stocks-demo.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -128,7 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				69FD4DDD290AC71F001CEB15 /* WatchListViewController.swift */,
-				69FD4DF2290AC9DF001CEB15 /* TopStoriesNewsViewController.swift */,
+				69FD4DF2290AC9DF001CEB15 /* NewsViewController.swift */,
 				69FD4DF4290ACA05001CEB15 /* SearchResultsViewController.swift */,
 				69FD4DF6290ACA20001CEB15 /* StocksDetailViewController.swift */,
 			);
@@ -273,7 +272,7 @@
 				69CB7ABA290C385D00FBAD76 /* HapticsManager.swift in Sources */,
 				69FD4DF7290ACA20001CEB15 /* StocksDetailViewController.swift in Sources */,
 				69FD4DDE290AC71F001CEB15 /* WatchListViewController.swift in Sources */,
-				69FD4DF3290AC9DF001CEB15 /* TopStoriesNewsViewController.swift in Sources */,
+				69FD4DF3290AC9DF001CEB15 /* NewsViewController.swift in Sources */,
 				69CB7AB8290C383C00FBAD76 /* PersistenceManager.swift in Sources */,
 				69368930290EEC290054C995 /* Extensions.swift in Sources */,
 				69FD4DDA290AC71F001CEB15 /* AppDelegate.swift in Sources */,
