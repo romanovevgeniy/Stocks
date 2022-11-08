@@ -8,6 +8,16 @@
 import Foundation
 import UIKit
 
+//MARK: DateFormatter
+
+extension DateFormatter {
+    static let newsDateFormatter: DateFormatter = {
+       let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd"
+        return formatter
+    }()
+}
+
 //MARK: - Views
 
 extension UIView {

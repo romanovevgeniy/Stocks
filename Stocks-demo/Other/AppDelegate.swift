@@ -29,7 +29,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func debug() {
-        
+        APIManager.shared.news(for: .company(symbol: "AAPL")) { result in
+            switch result {
+                case.success(let news):
+                    print(news.count)
+                case.failure: break
+            }
+        }
     }
 
 }
