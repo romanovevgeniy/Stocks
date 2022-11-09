@@ -23,8 +23,9 @@ class NewsViewController: UIViewController {
         }
     }
     
-    //MARK: Свойства
-    private var stories = [String]()
+    //MARK: - Properties
+    
+    private var stories = ["first"]
     private let type: Type
     
     let tableView: UITableView = {
@@ -37,7 +38,7 @@ class NewsViewController: UIViewController {
         return table
     }()
     
-    //MARK: - Инициализаторы
+    //MARK: - Init
     
     init(type: Type) {
         self.type = type
@@ -48,7 +49,7 @@ class NewsViewController: UIViewController {
         fatalError()
     }
     
-    //MARK: - Жизненные циклы
+    //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +82,7 @@ class NewsViewController: UIViewController {
 extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return stories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
