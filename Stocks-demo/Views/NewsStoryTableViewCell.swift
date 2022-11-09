@@ -20,8 +20,8 @@ class NewsStoryTableViewCell: UITableViewCell {
         init(model: NewsStory) {
             self.source = model.source
             self.headline = model.headline
-            self.dateString = "11 ноября 2022"
-            self.imageUrl = nil
+            self.dateString = .string(from: model.datetime)
+            self.imageUrl = URL(string: model.image)
         }
     }
     
@@ -120,5 +120,7 @@ class NewsStoryTableViewCell: UITableViewCell {
         sourceLabel.text = viewModel.source
         dateLabel.text = viewModel.dateString
         
+        //Установка изображения вручную
+//        storyImageView.setImage(with: viewModel.imageUrl)
     }
 }
