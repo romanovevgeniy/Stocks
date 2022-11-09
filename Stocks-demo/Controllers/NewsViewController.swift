@@ -25,12 +25,28 @@ class NewsViewController: UIViewController {
     
     //MARK: - Properties
     
-    private var stories = ["first"]
+    private var stories: [NewsStory] = [
+        NewsStory.init(
+            category: "tech",
+            datetime: 123,
+            headline: "Заголовок",
+            id: 1,
+            image: "",
+            related: "Связано",
+            source: "CNBC",
+            summary: "",
+            url: ""
+        )
+    ]
     private let type: Type
     
     let tableView: UITableView = {
         let table = UITableView()
-        // Регистрация ячейки, колонтитула
+        // Регистрация ячейки, заголовка
+        table.register(
+            NewsStoryTableViewCell.self,
+            forCellReuseIdentifier: NewsStoryTableViewCell.identifier)
+        
         table.register(
             NewsHeaderView.self,
             forHeaderFooterViewReuseIdentifier: NewsHeaderView.identifier)
@@ -86,7 +102,11 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NewsStoryTableViewCell.identifier, for: indexPath) as? NewsStoryTableViewCell else {
+            fatalError()
+        }
+        cell.congigure(with: .init(model: stories[indexPath.row]))
+        return cell
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -104,7 +124,7 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 140
+        return NewsStoryTableViewCell.preferredHeight
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -113,5 +133,6 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        // открыть новости
     }
 }
