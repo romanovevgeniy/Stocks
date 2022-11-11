@@ -25,19 +25,7 @@ class NewsViewController: UIViewController {
     
     //MARK: - Properties
     
-    private var stories: [NewsStory] = [
-        NewsStory.init(
-            category: "tech",
-            datetime: 123,
-            headline: "Заголовок",
-            id: 1,
-            image: "",
-            related: "Связано",
-            source: "CNBC",
-            summary: "",
-            url: ""
-        )
-    ]
+    private var stories = [NewsStory]()
     private let type: Type
     
     let tableView: UITableView = {
@@ -87,7 +75,17 @@ class NewsViewController: UIViewController {
     }
     
     private func fetchNews() {
-        
+        APIManager.shared.news(for: type) { [weak self] result in
+            switch result {
+                case .success(let stories):
+                    DispatchQueue.main.async {
+                        self?.stories
+                        self?.tableView.reloadData()
+                    }
+                case .failure(let error):
+                    print(error)
+            }
+        }
     }
     
     private func open(url: URL) {

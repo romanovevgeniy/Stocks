@@ -5,6 +5,7 @@
 //  Created by Евгений Романов on 09.11.2022.
 //
 
+import SDWebImage
 import UIKit
 
 class NewsStoryTableViewCell: UITableViewCell {
@@ -119,6 +120,8 @@ class NewsStoryTableViewCell: UITableViewCell {
         headlineLabel.text = viewModel.headline
         sourceLabel.text = viewModel.source
         dateLabel.text = viewModel.dateString
+        
+        storyImageView.sd_setImage(with: viewModel.imageUrl, completed: nil)
         
         //Установка изображения вручную
 //        storyImageView.setImage(with: viewModel.imageUrl)
