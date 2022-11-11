@@ -79,7 +79,7 @@ class NewsViewController: UIViewController {
             switch result {
                 case .success(let stories):
                     DispatchQueue.main.async {
-                        self?.stories
+                        self?.stories = stories
                         self?.tableView.reloadData()
                     }
                 case .failure(let error):
