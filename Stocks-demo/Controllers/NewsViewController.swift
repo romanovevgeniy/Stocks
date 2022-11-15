@@ -148,5 +148,7 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
             message: "Невозможно открыть статью, произошла ошибка при открытии",
             preferredStyle: .alert
         )
+        alert.addAction(UIAlertAction(title: "Закрыть", style: .cancel, handler: nil))
+        present(alert, animated: true)
     }
 }
