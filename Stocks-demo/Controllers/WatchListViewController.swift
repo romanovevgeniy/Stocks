@@ -13,17 +13,49 @@ class WatchListViewController: UIViewController {
     private var searchTimer: Timer?
     private var panel: FloatingPanelController?
     
+    /// Models
+    private var watchListMap: [String: [String]] = [:]
+    
+    /// ViewModels
+    
+    private var viewModels: [String] = []
+    
+    private let tableView: UITableView = {
+        let table = UITableView()
+        
+        return table
+    }()
+    
     //MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpSearchController()
+        setUpTableView()
+        setUpWatchListData()
         setUpFloatingPanel()
         setUpTitleView()
     }
     
     // MARK: - Private
+    
+    private func setUpWatchListData() {
+        let symbols = PersistenceManager.shared.watchList
+        
+        for symbol in symbols {
+            // получение рыночных данных по символу
+            watchListMap[symbol] = ["какая-то строка"]
+        }
+        
+        tableView.reloadData()
+    }
+    
+    private func setUpTableView() {
+        view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
     
     private func setUpFloatingPanel() {
         let vc = NewsViewController(type: .topStories)
@@ -117,6 +149,19 @@ extension WatchListViewController: SearchResultsViewControllerDelegate {
 extension WatchListViewController: FloatingPanelControllerDelegate {
     func floatingPanelDidChangeState(_ fpc: FloatingPanelController) {
         navigationItem.titleView?.isHidden = fpc.state == .full
+    }
+}
+
+extension WatchListViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return watchListMap.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        // открытие деталей выбора
     }
 }
 
