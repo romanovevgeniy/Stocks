@@ -69,9 +69,9 @@ final class APIManager {
     public func marketData(
         for symbol: String,
         numberOfDays: TimeInterval = 7,
-        completion: @escaping(Result<String, Error>) -> Void
+        completion: @escaping(Result<MarketDataResponse, Error>) -> Void
     ) {
-        let today = Date()
+        let today = Date().addingTimeInterval(-(Constants.day))
         let prior = today.addingTimeInterval(-(Constants.day * numberOfDays))
         request(
             url: url(
@@ -79,11 +79,11 @@ final class APIManager {
                 queryParams: [
                     "symbol": symbol,
                     "resolution": "1",
-                    "from": DateFormatter.newsDateFormatter.string(from: prior),
-                    "to": DateFormatter.newsDateFormatter.string(from: today)
+                    "from": "\(Int(prior.timeIntervalSince1970))",
+                    "to": "\(Int(today.timeIntervalSince1970))"
                 ]
             ),
-            expecting: String.self,
+            expecting: MarketDataResponse.self,
             completion: completion
         )
     }
