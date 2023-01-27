@@ -66,11 +66,34 @@ final class APIManager {
         }
     }
     
+    public func marketData(
+        for symbol: String,
+        numberOfDays: TimeInterval = 7,
+        completion: @escaping(Result<String, Error>) -> Void
+    ) {
+        let today = Date()
+        let prior = today.addingTimeInterval(-(Constants.day * numberOfDays))
+        request(
+            url: url(
+                for: .marketData,
+                queryParams: [
+                    "symbol": symbol,
+                    "resolution": "1",
+                    "from": DateFormatter.newsDateFormatter.string(from: prior),
+                    "to": DateFormatter.newsDateFormatter.string(from: today)
+                ]
+            ),
+            expecting: String.self,
+            completion: completion
+        )
+    }
+    
     // MARK: - Private
     private enum Endpoint: String {
         case search
         case topStories = "news"
         case companyNews = "companyNews"
+        case marketData = "stock/candle"
     }
     
     private enum APIError: Error {
