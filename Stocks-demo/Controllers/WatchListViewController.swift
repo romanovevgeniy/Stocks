@@ -14,7 +14,7 @@ class WatchListViewController: UIViewController {
     private var panel: FloatingPanelController?
     
     /// Models
-    private var watchListMap: [String: [String]] = [:]
+    private var watchListMap: [String: [CandleStick]] = [:]
     
     /// ViewModels
     
@@ -33,22 +33,35 @@ class WatchListViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setUpSearchController()
         setUpTableView()
-        setUpWatchListData()
+        fetchUpWatchListData()
         setUpFloatingPanel()
         setUpTitleView()
     }
     
     // MARK: - Private
     
-    private func setUpWatchListData() {
+    private func fetchUpWatchListData() {
         let symbols = PersistenceManager.shared.watchList
-        
+        let group = DispatchGroup()
         for symbol in symbols {
-            // получение рыночных данных по символу
-            watchListMap[symbol] = ["какая-то строка"]
+            group.enter()
+            
+            APIManager.shared.marketData(for: symbol) { [weak self] result in
+                defer {
+                    group.leave()
+                }
+                switch result {
+                case .success(let data):
+                    let candleSticks = data.candleSticks
+                    self?.watchListMap[symbol] = candleSticks
+                case .failure(let error):
+                    print(error)
+                }
+            }
         }
-        
-        tableView.reloadData()
+        group.notify(queue: .main) { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
     
     private func setUpTableView() {
