@@ -79,7 +79,7 @@ class WatchListViewController: UIViewController {
                     companyName: UserDefaults.standard.string(forKey: symbol) ?? "Компания",
                     price: getLatestClosingPrice(from: candleSticks),
                     changeColor: changePercentage < 0 ? .systemRed : .systemGreen,
-                    changePercentage: "\(changePercentage)"
+                    changePercentage: .percentage(from: changePercentage)
                 )
             )
         }
@@ -100,7 +100,7 @@ class WatchListViewController: UIViewController {
     
     private func getLatestClosingPrice(from data: [CandleStick]) -> String {
         guard let closingPrice = data.first?.close else { return "" }
-        return "\(closingPrice)"
+        return .formatted(number: closingPrice)
     }
     
     private func setUpTableView() {
