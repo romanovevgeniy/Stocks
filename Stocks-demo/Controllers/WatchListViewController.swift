@@ -18,7 +18,7 @@ class WatchListViewController: UIViewController {
     
     /// ViewModels
     
-    private var viewModels: [String] = []
+    private var viewModels: [WatchListTableViewCell.ViewModel] = []
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -47,9 +47,9 @@ class WatchListViewController: UIViewController {
             group.enter()
             
             APIManager.shared.marketData(for: symbol) { [weak self] result in
-                defer {
-                    group.leave()
-                }
+//                defer {
+//                    group.leave()
+//                }
                 switch result {
                 case .success(let data):
                     let candleSticks = data.candleSticks
@@ -60,8 +60,47 @@ class WatchListViewController: UIViewController {
             }
         }
         group.notify(queue: .main) { [weak self] in
+            self?.createViewModels()
             self?.tableView.reloadData()
         }
+    }
+    
+    private func createViewModels() {
+        var viewModels = [WatchListTableViewCell.ViewModel]()
+        
+        for (symbol, candleSticks) in watchListMap {
+            let changePercentage = getChangePercentage(
+                symbol: symbol,
+                data: candleSticks
+            )
+            viewModels.append(
+                .init(
+                    symbol: symbol,
+                    companyName: UserDefaults.standard.string(forKey: symbol) ?? "Компания",
+                    price: getLatestClosingPrice(from: candleSticks),
+                    changeColor: changePercentage < 0 ? .systemRed : .systemGreen,
+                    changePercentage: "\(changePercentage)"
+                )
+            )
+        }
+        self.viewModels = viewModels
+    }
+    
+    private func getChangePercentage(symbol: String, data: [CandleStick]) -> Double {
+        let latestDate = data[0].date
+        guard let latestClose = data.first?.close,
+            let priorClose = data.first(where: {
+                !Calendar.current.isDate($0.date, inSameDayAs: latestDate)
+            })?.close else {
+            return 0
+        }
+        let diff = priorClose/latestClose
+        return diff
+    }
+    
+    private func getLatestClosingPrice(from data: [CandleStick]) -> String {
+        guard let closingPrice = data.first?.close else { return "" }
+        return "\(closingPrice)"
     }
     
     private func setUpTableView() {

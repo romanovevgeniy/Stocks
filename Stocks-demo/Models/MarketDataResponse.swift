@@ -36,7 +36,7 @@ struct MarketDataResponse: Codable {
                     close: close[index]
                 ))
         }
-        let sortedData = result.sorted(by: {$0.date < $1.date})
+        let sortedData = result.sorted(by: {$0.date > $1.date})
         return sortedData
     }
 }
