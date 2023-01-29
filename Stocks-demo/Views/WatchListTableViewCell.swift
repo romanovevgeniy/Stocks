@@ -31,7 +31,7 @@ class WatchListTableViewCell: UITableViewCell {
     // Symbol label
     private let symbolLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.font = .systemFont(ofSize: 16, weight: .medium)
         return label
     }()
     
@@ -46,14 +46,18 @@ class WatchListTableViewCell: UITableViewCell {
     private let priceLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.textAlignment = .right
         return label
     }()
     
     // Change Label
     private let changeLabel: UILabel = {
         let label = UILabel()
+        label.textAlignment = .right
         label.textColor = .white
         label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 6
         return label
     }()
     
