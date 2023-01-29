@@ -12,6 +12,7 @@ class WatchListViewController: UIViewController {
     
     private var searchTimer: Timer?
     private var panel: FloatingPanelController?
+    static var maxChangeWidth: CGFloat = 0
     
     /// Models
     private var watchListMap: [String: [CandleStick]] = [:]
@@ -22,6 +23,10 @@ class WatchListViewController: UIViewController {
     
     private let tableView: UITableView = {
         let table = UITableView()
+        table.register(
+            WatchListTableViewCell.self,
+            forCellReuseIdentifier: WatchListTableViewCell.identifier
+        )
         
         return table
     }()
@@ -36,6 +41,11 @@ class WatchListViewController: UIViewController {
         fetchUpWatchListData()
         setUpFloatingPanel()
         setUpTitleView()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.frame = view.bounds
     }
     
     // MARK: - Private
@@ -206,14 +216,32 @@ extension WatchListViewController: FloatingPanelControllerDelegate {
 
 extension WatchListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return watchListMap.count
+        return viewModels.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: WatchListTableViewCell.identifier,
+            for: indexPath) as? WatchListTableViewCell else {
+            fatalError()
+        }
+        cell.delegate = self
+        cell.configure(with: viewModels[indexPath.row])
+        return cell
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return WatchListTableViewCell.preferredHeight
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         // открытие деталей выбора
+    }
+}
+
+extension WatchListViewController: WatchListTableViewCellDelegate {
+    func didUpdateMaxWidth() {
+        tableView.reloadData()
     }
 }
 
