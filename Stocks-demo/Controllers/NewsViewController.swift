@@ -17,7 +17,7 @@ class NewsViewController: UIViewController {
         var title: String {
             switch self {
                 case .topStories:
-                    return "Топ новостей"
+                    return "Новости"
                 case .company(symbol: let symbol):
                     return symbol.uppercased()
             }
