@@ -73,9 +73,9 @@ class WatchListViewController: UIViewController {
             group.enter()
             
             APIManager.shared.marketData(for: symbol) { [weak self] result in
-                defer {
-                    group.leave()
-                }
+//                defer {
+//                    group.leave()
+//                }
                 switch result {
                 case .success(let data):
                     let candleSticks = data.candleSticks
