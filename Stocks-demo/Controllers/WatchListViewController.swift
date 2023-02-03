@@ -73,9 +73,9 @@ class WatchListViewController: UIViewController {
             group.enter()
             
             APIManager.shared.marketData(for: symbol) { [weak self] result in
-//                defer {
-//                    group.leave()
-//                }
+                defer {
+                    group.leave()
+                }
                 switch result {
                 case .success(let data):
                     let candleSticks = data.candleSticks
@@ -109,7 +109,8 @@ class WatchListViewController: UIViewController {
                     chartViewModel: .init(
                         data: candleSticks.reversed().map { $0.close },
                         showLegend: false,
-                        showAxis: false
+                        showAxis: false,
+                        fillColor: changePercentage < 0 ? .systemRed : .systemGreen
                     )
                 )
             )
