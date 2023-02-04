@@ -8,14 +8,21 @@
 import SafariServices
 import UIKit
 
-class StocksDetailViewController: UIViewController {
+/// VC to show stocks details
+final class StocksDetailViewController: UIViewController {
     
-    // MARK - Properties
+    // MARK: - Properties
     
+    /// Stock symbol
     private let symbol: String
+    
+    /// Company name
     private let companyName: String
+    
+    /// Collection of data
     private var candleStickData: [CandleStick]
     
+    /// Primary view
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(
@@ -29,11 +36,13 @@ class StocksDetailViewController: UIViewController {
         return table
     }()
     
+    /// Collection of news stories
     private var stories: [NewsStory] = []
     
+    /// Company metrics
     private var metrics: Metrics?
     
-    // MARK - Init
+    // MARK: - Init
     
     init(
         symbol: String,
@@ -50,7 +59,7 @@ class StocksDetailViewController: UIViewController {
         fatalError()
     }
     
-    // MARK - Lifecycle
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,8 +77,9 @@ class StocksDetailViewController: UIViewController {
     }
     
     
-    //  MARK - Private
+    // MARK: - Private
     
+    /// Sets up close button
     private func setUpCloseButton() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .close,
@@ -78,10 +88,12 @@ class StocksDetailViewController: UIViewController {
         )
     }
     
+    /// Handle close button tap
     @objc private func didTapClose() {
         dismiss(animated: true, completion: nil)
     }
     
+    /// Sets up table
     private func setUpTable() {
         view.addSubview(tableView)
         tableView.delegate = self
@@ -96,8 +108,11 @@ class StocksDetailViewController: UIViewController {
         )
     }
     
+    /// Fetch financial metrics
     private func fetchFinancialData() {
         let group = DispatchGroup()
+        
+        // Fetch candle sticks if needed
         if candleStickData.isEmpty {
             group.enter()
             APIManager.shared.marketData(for: symbol) { [weak self] result in
@@ -113,6 +128,7 @@ class StocksDetailViewController: UIViewController {
             }
         }
         
+        // Fetch financial metrics
         group.enter()
         APIManager.shared.financialMetrics(for: symbol) { [weak self] result in
             defer {
@@ -131,6 +147,22 @@ class StocksDetailViewController: UIViewController {
         }
     }
     
+    /// Fetch news for given type
+    private func fetchNews() {
+        APIManager.shared.news(for: .company(symbol: symbol)) { [weak self] result in
+            switch result {
+            case .success(let stories):
+                DispatchQueue.main.async {
+                    self?.stories = stories
+                    self?.tableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    /// Render chart and metrics
     private func renderChart() {
         let headerView = StockDetailHeaderView(
             frame: CGRect(
@@ -163,6 +195,11 @@ class StocksDetailViewController: UIViewController {
         tableView.tableHeaderView = headerView
     }
     
+    /// Get change percentage
+    /// - Parameters:
+    ///   - symbol: Symbol of company
+    ///   - data: Collection of data
+    /// - Returns: Percent
     private func getChangePercentage(symbol: String, data: [CandleStick]) -> Double {
         let latestDate = data[0].date
         guard let latestClose = data.first?.close,
@@ -174,21 +211,9 @@ class StocksDetailViewController: UIViewController {
         let diff = priorClose/latestClose
         return diff
     }
-    
-    private func fetchNews() {
-        APIManager.shared.news(for: .company(symbol: symbol)) { [weak self] result in
-            switch result {
-            case .success(let stories):
-                DispatchQueue.main.async {
-                    self?.stories = stories
-                    self?.tableView.reloadData()
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
 }
+
+//MARK: - TableView
 
 extension StocksDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -235,6 +260,8 @@ extension StocksDetailViewController: UITableViewDelegate, UITableViewDataSource
         present(vc, animated: true)
     }
 }
+
+//MARK: - NewsHeaderViewDelegate
 
 extension StocksDetailViewController: NewsHeaderViewDelegate {
     func NewsHeaderViewDidTapAddButton(_ headerView: NewsHeaderView) {

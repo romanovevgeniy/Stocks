@@ -8,10 +8,16 @@
 import SDWebImage
 import UIKit
 
-class NewsStoryTableViewCell: UITableViewCell {
+/// News story table view cell
+final class NewsStoryTableViewCell: UITableViewCell {
+    
+    /// Cell identifier
     static let identifier = "NewsStoryTableViewCell"
+    
+    /// Ideal height of cell
     static let preferredHeight: CGFloat = 140
     
+    /// Cell ViewModel
     struct ViewModel {
         let source: String
         let headline: String
@@ -26,14 +32,14 @@ class NewsStoryTableViewCell: UITableViewCell {
         }
     }
     
-    // Источник
+    /// Source label
     private let sourceLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .medium)
         return label
     }()
     
-    // Заголовок
+    /// Headline label
     private let headlineLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .regular)
@@ -41,7 +47,7 @@ class NewsStoryTableViewCell: UITableViewCell {
         return label
     }()
     
-    // Дата
+    /// Date label
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.textColor = .secondaryLabel
@@ -49,7 +55,7 @@ class NewsStoryTableViewCell: UITableViewCell {
         return label
     }()
     
-    // Изображение
+    /// Image for story
     private let storyImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .tertiarySystemBackground
@@ -59,6 +65,8 @@ class NewsStoryTableViewCell: UITableViewCell {
         imageView.layer.masksToBounds = true
         return imageView
     }()
+    
+    // MARK: - Init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -116,6 +124,8 @@ class NewsStoryTableViewCell: UITableViewCell {
         storyImageView.image = nil
     }
     
+    /// Configure view
+    /// - Parameter viewModel: View ViewModel
     public func congigure(with viewModel: ViewModel) {
         headlineLabel.text = viewModel.headline
         sourceLabel.text = viewModel.source
@@ -123,7 +133,7 @@ class NewsStoryTableViewCell: UITableViewCell {
         
         storyImageView.sd_setImage(with: viewModel.imageUrl, completed: nil)
         
-        //Установка изображения вручную
-//        storyImageView.setImage(with: viewModel.imageUrl)
+        // Manually set image
+        // storyImageView.setImage(with: viewModel.imageUrl)
     }
 }
