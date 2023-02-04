@@ -78,6 +78,8 @@ final class WatchListViewController: UIViewController {
     private func fetchUpWatchListData() {
         let symbols = PersistenceManager.shared.watchList
         
+        createPlaceholderViewModels()
+        
         let group = DispatchGroup()
         
         for symbol in symbols where watchListMap[symbol] == nil {
@@ -100,6 +102,29 @@ final class WatchListViewController: UIViewController {
             self?.createViewModels()
             self?.tableView.reloadData()
         }
+    }
+    
+    private func createPlaceholderViewModels() {
+        let symbols = PersistenceManager.shared.watchList
+        symbols.forEach { item in
+            viewModels.append(
+                .init(
+                    symbol: item,
+                    companyName: UserDefaults.standard.string(forKey: item) ?? "Company",
+                    price: "0.00",
+                    changeColor: .systemGreen,
+                    changePercentage: "0.00",
+                    chartViewModel: .init(
+                        data: [],
+                        showLegend: false,
+                        showAxis: false,
+                        fillColor: .clear
+                    )
+                )
+            )
+        }
+        self.viewModels = viewModels.sorted(by: { $0.symbol < $1.symbol })
+        tableView.reloadData()
     }
     
     /// Creates view models from models
