@@ -125,7 +125,7 @@ final class WatchListViewController: UIViewController {
                 )
             )
         }
-        self.viewModels = viewModels
+        self.viewModels = viewModels.sorted(by: {$0.symbol < $1.symbol})
     }
     
     /// Gets latest closing price
