@@ -84,9 +84,9 @@ final class WatchListViewController: UIViewController {
             group.enter()
             
             APIManager.shared.marketData(for: symbol) { [weak self] result in
-                defer {
-                    group.leave()
-                }
+//                defer {
+//                    group.leave()
+//                }
                 switch result {
                 case .success(let data):
                     let candleSticks = data.candleSticks
@@ -107,10 +107,8 @@ final class WatchListViewController: UIViewController {
         var viewModels = [WatchListTableViewCell.ViewModel]()
         
         for (symbol, candleSticks) in watchListMap {
-            let changePercentage = getChangePercentage(
-                symbol: symbol,
-                data: candleSticks
-            )
+            let changePercentage = candleSticks.getPercentage()
+            
             viewModels.append(
                 .init(
                     symbol: symbol,
@@ -128,23 +126,6 @@ final class WatchListViewController: UIViewController {
             )
         }
         self.viewModels = viewModels
-    }
-    
-    /// Gets change percentage for symbol data
-    /// - Parameters:
-    ///   - symbol: Symbol to check for
-    ///   - data: Collection of data
-    /// - Returns: Double percentage
-    private func getChangePercentage(symbol: String, data: [CandleStick]) -> Double {
-        let latestDate = data[0].date
-        guard let latestClose = data.first?.close,
-            let priorClose = data.first(where: {
-                !Calendar.current.isDate($0.date, inSameDayAs: latestDate)
-            })?.close else {
-            return 0
-        }
-        let diff = priorClose/latestClose
-        return diff
     }
     
     /// Gets latest closing price
