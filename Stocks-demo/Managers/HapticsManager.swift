@@ -19,10 +19,18 @@ final class HapticsManager {
     
     //MARK: Public
     
-    /// Vibrate slightly for selection
+    /// Vibrate lightly for selection
     public func vibrateForSelection() {
-        // создание легкой вибрации при взаимодействии
+        let generator = UISelectionFeedbackGenerator()
+        generator.prepare()
+        generator.selectionChanged()
     }
     
-    // вибрация для типа
+    /// Play haptic for given type interaction
+    /// - Parameter type: Type to vibrate for 
+    public func vibrate(for type: UINotificationFeedbackGenerator.FeedbackType){
+        let generator = UINotificationFeedbackGenerator()
+        generator.prepare()
+        generator.notificationOccurred(type)
+    }
 }
