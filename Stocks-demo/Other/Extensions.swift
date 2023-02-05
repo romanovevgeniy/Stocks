@@ -161,7 +161,7 @@ extension Array where Element == CandleStick {
             })?.close else {
             return 0
         }
-        let diff = priorClose/latestClose
+        let diff = 1 - (priorClose/latestClose)
         return diff
     }
 }

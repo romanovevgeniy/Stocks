@@ -27,7 +27,7 @@ final class StocksDetailViewController: UIViewController {
         let table = UITableView()
         table.register(
             NewsHeaderView.self,
-            forCellReuseIdentifier: NewsHeaderView.identifier
+            forHeaderFooterViewReuseIdentifier: NewsHeaderView.identifier
         )
         table.register(
             NewsStoryTableViewCell.self,
@@ -103,7 +103,7 @@ final class StocksDetailViewController: UIViewController {
                 x: 0,
                 y: 0,
                 width: view.width,
-                height: (view.height * 0.7) + 100
+                height: (view.width * 0.7) + 100
             )
         )
     }
@@ -134,6 +134,7 @@ final class StocksDetailViewController: UIViewController {
             defer {
                 group.leave()
             }
+            
             switch result {
             case .success(let response):
                 let metrics = response.metric

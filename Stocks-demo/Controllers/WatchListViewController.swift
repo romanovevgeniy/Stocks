@@ -294,7 +294,8 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: WatchListTableViewCell.identifier,
-            for: indexPath) as? WatchListTableViewCell else {
+            for: indexPath
+        ) as? WatchListTableViewCell else {
             fatalError()
         }
         cell.delegate = self

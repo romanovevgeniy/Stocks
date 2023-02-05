@@ -65,13 +65,14 @@ final class APIManager {
                 let today = Date()
                 let oneMonthBack = today.addingTimeInterval(-(Constants.day * 7))
                 request(
-                    url: url(for: .companyNews,
-                             queryParams: [
-                                "symbol": symbol,
-                                "from": DateFormatter.newsDateFormatter.string(from: oneMonthBack),
-                                "to": DateFormatter.newsDateFormatter.string(from: today)
-                             ]
-                            ),
+                    url: url(
+                        for: .companyNews,
+                        queryParams: [
+                            "symbol": symbol,
+                            "from": DateFormatter.newsDateFormatter.string(from: oneMonthBack),
+                            "to": DateFormatter.newsDateFormatter.string(from: today)
+                        ]
+                    ),
                     expecting: [NewsStory].self,
                     completion: completion
                 )
@@ -113,7 +114,6 @@ final class APIManager {
         for symbol: String,
         completion: @escaping (Result<FinancialMetricsResponse, Error>) -> Void
     ) {
-        
         request(
             url: url(
                 for: .financials,
@@ -130,7 +130,7 @@ final class APIManager {
     private enum Endpoint: String {
         case search
         case topStories = "news"
-        case companyNews = "companyNews"
+        case companyNews = "company-news"
         case marketData = "stock/candle"
         case financials = "stock/metric"
     }
@@ -154,16 +154,16 @@ final class APIManager {
         
         var queryItems = [URLQueryItem]()
         
-        // Добавление параметров в URL
+        // Add any parameters
         
         for (name, value) in queryParams {
             queryItems.append(.init(name: name, value: value))
         }
         
-        // Добавление токена
+        // Add token
         queryItems.append(.init(name: "token", value: Constants.apiKey))
         
-        // Конвертирование строки в суффикс строки
+        // Convert query string to suffix string
         urlString += "?" + queryItems.map { "\($0.name)=\($0.value ?? "")" }.joined(separator: "&")
         
         return URL(string: urlString)
@@ -180,16 +180,18 @@ final class APIManager {
         completion: @escaping (Result<T, Error>) -> Void
     ) {
         guard let url = url else {
-            // недействительный Url
+            // Invalid Url
             completion(.failure(APIError.invalidUrl))
             return
         }
         let task = URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data = data, error == nil else { return }
-            if let error = error {
-                completion(.failure(error))
-            } else {
-                completion(.failure(APIError.noDataReturned))
+            guard let data = data, error == nil else {
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.failure(APIError.noDataReturned))
+                }
+                return
             }
             do {
                  let result = try JSONDecoder().decode(expecting, from: data)
